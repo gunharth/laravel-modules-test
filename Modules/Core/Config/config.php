@@ -1,5 +1,6 @@
 <?php
 
 return [
-    'name' => 'Core'
+    'name' => 'Core',
+    'admin-prefix' => 'cp',
 ];

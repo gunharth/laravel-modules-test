@@ -1,11 +1,11 @@
 <?php
 
-namespace Modules\Core\Providers;
+namespace Modules\Dashboard\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 
-class CoreServiceProvider extends ServiceProvider
+class DashboardServiceProvider extends ServiceProvider
 {
     /**
      * Indicates if loading of the provider is deferred.
@@ -35,9 +35,7 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('asgard.onBackend', function () {
-            return $this->onBackend();
-        });
+        //
     }
 
     /**
@@ -48,11 +46,11 @@ class CoreServiceProvider extends ServiceProvider
     protected function registerConfig()
     {
         $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('core.php'),
+            __DIR__.'/../Config/config.php' => config_path('dashboard.php'),
         ], 'config');
         $this->mergeConfigFrom(
             __DIR__.'/../Config/config.php',
-            'core'
+            'dashboard'
         );
     }
 
@@ -63,7 +61,7 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function registerViews()
     {
-        $viewPath = resource_path('views/modules/core');
+        $viewPath = resource_path('views/modules/dashboard');
 
         $sourcePath = __DIR__.'/../Resources/views';
 
@@ -72,8 +70,8 @@ class CoreServiceProvider extends ServiceProvider
         ], 'views');
 
         $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/core';
-        }, \Config::get('view.paths')), [$sourcePath]), 'core');
+            return $path . '/modules/dashboard';
+        }, \Config::get('view.paths')), [$sourcePath]), 'dashboard');
     }
 
     /**
@@ -83,12 +81,12 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function registerTranslations()
     {
-        $langPath = resource_path('lang/modules/core');
+        $langPath = resource_path('lang/modules/dashboard');
 
         if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, 'core');
+            $this->loadTranslationsFrom($langPath, 'dashboard');
         } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'core');
+            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'dashboard');
         }
     }
 
@@ -111,19 +109,5 @@ class CoreServiceProvider extends ServiceProvider
     public function provides()
     {
         return [];
-    }
-
-    /**
-     * Checks if the current url matches the configured backend uri
-     * @return bool
-     */
-    private function onBackend()
-    {
-        $url = app(Request::class)->url();
-        if (str_contains($url, config('asgard.core.core.admin-prefix'))) {
-            return true;
-        }
-
-        return false;
     }
 }
