@@ -1,5 +1,5 @@
 {
-    "name": "nwidart/dashboard",
+    "name": "nwidart/stub",
     "description": "",
     "authors": [
         {
@@ -10,17 +10,16 @@
     "extra": {
         "laravel": {
             "providers": [
-                "Modules\\Dashboard\\Providers\\DashboardServiceProvider",
-                "Modules\\Dashboard\\Providers\\RouteServiceProvider"
+                "Modules\\Stub\\Providers\\StubServiceProvider"
             ],
             "aliases": {
-
+                
             }
         }
     },
     "autoload": {
         "psr-4": {
-            "Modules\\Dashboard\\": ""
+            "Modules\\Stub\\": ""
         }
     }
 }
