@@ -9,8 +9,6 @@
         "Modules\\Theme\\Providers\\ThemeServiceProvider"
     ],
     "aliases": {},
-    "files": [
-        "start.php"
-    ],
+    "files": [],
     "requires": []
 }
