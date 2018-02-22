@@ -22,12 +22,7 @@
     @stack('css-stack')
     @stack('translation-stack')
 
-    <script>
-        $.ajaxSetup({
-            headers: { 'Authorization': 'Bearer {{ $currentUser->getFirstApiKey() }}' }
-        });
-        var AuthorizationHeaderValue = 'Bearer {{ $currentUser->getFirstApiKey() }}';
-    </script>
+
 
     <!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
     <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -70,45 +65,16 @@
     @include('partials.right-sidebar')
 </div><!-- ./wrapper -->
 
-@foreach($jsFiles as $js)
-    <script src="{{ URL::asset($js) }}" type="text/javascript"></script>
-@endforeach
+
 <script>
-    window.AsgardCMS = {
-        translations: {!! $staticTranslations !!},
-        locales: {!! json_encode(LaravelLocalization::getSupportedLocales()) !!},
-        currentLocale: '{{ locale() }}',
-        editor: '{{ $activeEditor }}',
-        adminPrefix: '{{ config('asgard.core.core.admin-prefix') }}',
-        hideDefaultLocaleInURL: '{{ config('laravellocalization.hideDefaultLocaleInURL') }}',
-        filesystem: '{{ config('asgard.media.config.filesystem') }}'
-    };
+
 </script>
 
 <script src="{{ mix('js/app.js') }}"></script>
 
-<?php if (is_module_enabled('Notification')): ?>
-    <script src="https://js.pusher.com/4.1/pusher.min.js"></script>
-    <script src="{{ Module::asset('notification:js/pusherNotifications.js') }}"></script>
-    <script>
-        $('.notifications-list').pusherNotifications({
-            pusherKey: '{{ config('broadcasting.connections.pusher.key') }}',
-            pusherCluster: '{{ config('broadcasting.connections.pusher.options.cluster') }}',
-            pusherEncrypted: {{ config('broadcasting.connections.pusher.options.encrypted') }},
-            loggedInUserId: {{ $currentUser->id }},
-        });
-    </script>
-<?php endif; ?>
 
-<?php if (config('asgard.core.core.ckeditor-config-file-path') !== ''): ?>
-    <script>
-        $('.ckeditor').each(function() {
-            CKEDITOR.replace($(this).attr('name'), {
-                customConfig: '{{ config('asgard.core.core.ckeditor-config-file-path') }}'
-            });
-        });
-    </script>
-<?php endif; ?>
+
+
 @section('scripts')
 @show
 @stack('js-stack')

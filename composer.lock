@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#composer-lock-the-lock-file",
         "This file is @generated automatically"
     ],
-    "content-hash": "190ec0532d760c691f9e444e67352af8",
+    "content-hash": "29ca89afa1ba26b12ed72a7ba77d53cf",
     "packages": [
         {
             "name": "dnoegel/php-xdg-base-dir",
@@ -366,6 +366,51 @@
             "time": "2018-02-07T20:20:57+00:00"
         },
         {
+            "name": "floatingpoint/stylist",
+            "version": "0.5.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/floatingpointsoftware/stylist.git",
+                "reference": "240865041da9908037954fb918c00008ccb59c2f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/floatingpointsoftware/stylist/zipball/240865041da9908037954fb918c00008ccb59c2f",
+                "reference": "240865041da9908037954fb918c00008ccb59c2f",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "~5.0",
+                "laravelcollective/html": "~5.0",
+                "php": ">=5.5.0"
+            },
+            "require-dev": {
+                "mockery/mockery": "dev-master@dev",
+                "orchestra/testbench": "3.0.*",
+                "phpunit/phpunit": "~4.5"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "FloatingPoint\\Stylist\\": "src/Stylist",
+                    "Tests\\": "tests"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "authors": [
+                {
+                    "name": "Kirk Bushell",
+                    "email": "torm3nt@gmail.com"
+                },
+                {
+                    "name": "Mike Dugan",
+                    "email": "mike@mjdugan.com"
+                }
+            ],
+            "description": "Laravel 5 theming package.",
+            "time": "2017-03-12T23:24:15+00:00"
+        },
+        {
             "name": "jakub-onderka/php-console-color",
             "version": "0.1",
             "source": {
@@ -649,6 +694,74 @@
                 "psysh"
             ],
             "time": "2017-12-18T16:25:11+00:00"
+        },
+        {
+            "name": "laravelcollective/html",
+            "version": "v5.6.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/LaravelCollective/html.git",
+                "reference": "41cd9291a69bd24f2184e504be041348a87308a8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/LaravelCollective/html/zipball/41cd9291a69bd24f2184e504be041348a87308a8",
+                "reference": "41cd9291a69bd24f2184e504be041348a87308a8",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/http": "5.6.*",
+                "illuminate/routing": "5.6.*",
+                "illuminate/session": "5.6.*",
+                "illuminate/support": "5.6.*",
+                "illuminate/view": "5.6.*",
+                "php": ">=7.1.3"
+            },
+            "require-dev": {
+                "illuminate/database": "5.6.*",
+                "mockery/mockery": "~1.0",
+                "phpunit/phpunit": "~5.4"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "5.6-dev"
+                },
+                "laravel": {
+                    "providers": [
+                        "Collective\\Html\\HtmlServiceProvider"
+                    ],
+                    "aliases": {
+                        "Form": "Collective\\Html\\FormFacade",
+                        "Html": "Collective\\Html\\HtmlFacade"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Collective\\Html\\": "src/"
+                },
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Taylor Otwell",
+                    "email": "taylorotwell@gmail.com"
+                },
+                {
+                    "name": "Adam Engebretson",
+                    "email": "adam@laravelcollective.com"
+                }
+            ],
+            "description": "HTML and Form Builders for the Laravel Framework",
+            "homepage": "https://laravelcollective.com",
+            "time": "2018-02-12T14:19:42+00:00"
         },
         {
             "name": "league/flysystem",
@@ -2190,6 +2303,64 @@
                 "dump"
             ],
             "time": "2018-01-29T09:06:29+00:00"
+        },
+        {
+            "name": "symfony/yaml",
+            "version": "v4.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/symfony/yaml.git",
+                "reference": "ffc60bda1d4a00ec0b32eeabf39dc017bf480028"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/symfony/yaml/zipball/ffc60bda1d4a00ec0b32eeabf39dc017bf480028",
+                "reference": "ffc60bda1d4a00ec0b32eeabf39dc017bf480028",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^7.1.3"
+            },
+            "conflict": {
+                "symfony/console": "<3.4"
+            },
+            "require-dev": {
+                "symfony/console": "~3.4|~4.0"
+            },
+            "suggest": {
+                "symfony/console": "For validating YAML files using the lint command"
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.0-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Symfony\\Component\\Yaml\\": ""
+                },
+                "exclude-from-classmap": [
+                    "/Tests/"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Fabien Potencier",
+                    "email": "fabien@symfony.com"
+                },
+                {
+                    "name": "Symfony Community",
+                    "homepage": "https://symfony.com/contributors"
+                }
+            ],
+            "description": "Symfony Yaml Component",
+            "homepage": "https://symfony.com",
+            "time": "2018-01-21T19:06:11+00:00"
         },
         {
             "name": "tijsverkoyen/css-to-inline-styles",

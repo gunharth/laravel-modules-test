@@ -4,6 +4,7 @@ namespace Modules\Dashboard\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Theme\Manager\StylistThemeManager;
 
 class DashboardServiceProvider extends ServiceProvider
 {
@@ -19,12 +20,21 @@ class DashboardServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function boot()
+    public function boot(StylistThemeManager $theme)
     {
+        $this->publishes([
+            __DIR__ . '/../Resources/views' => base_path('resources/views/sorter/dashboard'),
+        ], 'views');
+
+        $this->app['view']->prependNamespace(
+            'dashboard',
+            $theme->find(config('core.admin-theme'))->getPath() . '/views/modules/dashboard'
+        );
+
         $this->registerTranslations();
         $this->registerConfig();
         $this->registerViews();
-        $this->registerFactories();
+        // $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
     }
 

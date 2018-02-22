@@ -4,6 +4,7 @@ namespace Modules\Core\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Core\Foundation\Theme\ThemeManager;
 
 class CoreServiceProvider extends ServiceProvider
 {
@@ -35,8 +36,14 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function register()
     {
-        $this->app->singleton('asgard.onBackend', function () {
+        $this->app->singleton('sorter.onBackend', function () {
             return $this->onBackend();
+        });
+
+        $this->app->singleton(ThemeManager::class, function ($app) {
+            $path = $app['config']->get('core.themes_path');
+
+            return new ThemeManager($app, $path);
         });
     }
 
@@ -120,7 +127,7 @@ class CoreServiceProvider extends ServiceProvider
     private function onBackend()
     {
         $url = app(Request::class)->url();
-        if (str_contains($url, config('asgard.core.core.admin-prefix'))) {
+        if (str_contains($url, config('core.admin-prefix'))) {
             return true;
         }
 
