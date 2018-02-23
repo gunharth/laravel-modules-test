@@ -23,6 +23,8 @@
         }
     },
     "require": {
-        "floatingpoint/stylist": "^0.5.0"
+        "floatingpoint/stylist": "^0.5.0",
+        "dimsav/laravel-translatable": "^9.0",
+        "mcamara/laravel-localization": "^1.3"
     }
 }
