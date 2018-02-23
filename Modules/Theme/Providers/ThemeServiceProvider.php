@@ -6,12 +6,14 @@ use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\Core\Events\BuildingSidebar;
 use Modules\Core\Traits\CanGetSidebarClassForModule;
-use Modules\Dashboard\Events\Handlers\RegisterDashboardSidebar;
+use Modules\Theme\Events\Handlers\RegisterThemeSidebar;
 use Modules\Theme\Manager\StylistThemeManager;
 use Modules\Theme\Manager\ThemeManager;
 
 class ThemeServiceProvider extends ServiceProvider
 {
+    use CanGetSidebarClassForModule;
+
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -45,7 +47,7 @@ class ThemeServiceProvider extends ServiceProvider
     {
         $this->app['events']->listen(
             BuildingSidebar::class,
-            $this->getSidebarClassForModule('dashboard', RegisterThemeSidebar::class)
+            $this->getSidebarClassForModule('theme', RegisterThemeSidebar::class)
         );
 
 
