@@ -1,6 +1,6 @@
 <?php
 
-// view()->creator('partials.sidebar-nav', \Modules\Core\Composers\SidebarViewCreator::class);
+view()->creator('partials.sidebar-nav', \Modules\Core\Composers\SidebarViewCreator::class);
 // view()->composer('partials.footer', \Modules\Core\Composers\ApplicationVersionViewComposer::class);
 // view()->composer('layouts.master', \Modules\Core\Composers\SiteNameViewComposer::class);
 // view()->composer('core::fields.select-theme', \Modules\Core\Composers\ThemeComposer::class);

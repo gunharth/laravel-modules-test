@@ -7,8 +7,10 @@
     "order": 0,
     "providers": [
         "Modules\\Core\\Providers\\CoreServiceProvider",
+        "Modules\\Core\\Providers\\SidebarServiceProvider",
         "Modules\\Core\\Providers\\AssetServiceProvider",
-        "FloatingPoint\\Stylist\\StylistServiceProvider"
+        "FloatingPoint\\Stylist\\StylistServiceProvider",
+        "Maatwebsite\\Sidebar\\SidebarServiceProvider"
     ],
     "aliases": {},
     "files": [

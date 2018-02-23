@@ -4,18 +4,48 @@ namespace Modules\Dashboard\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Core\Events\BuildingSidebar;
+use Modules\Core\Traits\CanGetSidebarClassForModule;
 use Modules\Core\Traits\CanPublishConfiguration;
+use Modules\Dashboard\Events\Handlers\RegisterDashboardSidebar;
 use Modules\Theme\Manager\StylistThemeManager;
 
 class DashboardServiceProvider extends ServiceProvider
 {
-    use CanPublishConfiguration;
+    use CanPublishConfiguration, CanGetSidebarClassForModule;
     /**
      * Indicates if loading of the provider is deferred.
      *
      * @var bool
      */
     protected $defer = false;
+
+    /**
+     * Register the service provider.
+     *
+     * @return void
+     */
+    public function register()
+    {
+        // $this->app->bind(WidgetRepository::class, function () {
+        //     $repository = new EloquentWidgetRepository(new Widget());
+
+        //     if (! config('app.cache')) {
+        //         return $repository;
+        //     }
+
+        //     return new CacheWidgetDecorator($repository);
+        // });
+
+        $this->app['events']->listen(
+            BuildingSidebar::class,
+            $this->getSidebarClassForModule('dashboard', RegisterDashboardSidebar::class)
+        );
+
+        // $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
+        //     $event->load('dashboard', array_dot(trans('dashboard::dashboard')));
+        // });
+    }
 
     /**
      * Boot the application events.

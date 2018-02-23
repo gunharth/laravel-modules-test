@@ -5,12 +5,15 @@ namespace Modules\Core\Providers;
 use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Core\Events\BuildingSidebar;
+use Modules\Core\Events\Handlers\RegisterCoreSidebar;
 use Modules\Core\Foundation\Theme\ThemeManager;
 use Modules\Core\Traits\CanPublishConfiguration;
+use Modules\Core\Traits\CanGetSidebarClassForModule;
 
 class CoreServiceProvider extends ServiceProvider
 {
-    use CanPublishConfiguration;
+    use CanPublishConfiguration, CanGetSidebarClassForModule;
 
     /**
      * Indicates if loading of the provider is deferred.
@@ -44,14 +47,44 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function register()
     {
+        $this->app->singleton('sorter.isInstalled', function () {
+            return true === env('INSTALLED', false);
+        });
+
         $this->app->singleton('sorter.onBackend', function () {
             return $this->onBackend();
         });
 
+        $this->registerServices();
+
+        $this->app['events']->listen(
+            BuildingSidebar::class,
+            $this->getSidebarClassForModule('core', RegisterCoreSidebar::class)
+        );
+    }
+
+
+    private function registerServices()
+    {
         $this->app->singleton(ThemeManager::class, function ($app) {
             $path = $app['config']->get('sorter.core.core.themes_path');
 
             return new ThemeManager($app, $path);
+        });
+
+        $this->app->singleton('sorter.ModulesList', function () {
+            return [
+                'core',
+                'dashboard',
+                // 'media',
+                // 'menu',
+                // 'page',
+                // 'setting',
+                // 'tag',
+                // 'translation',
+                // 'user',
+                // 'workshop',
+            ];
         });
     }
 

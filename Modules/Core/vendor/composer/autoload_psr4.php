@@ -27,6 +27,7 @@ return array(
     'Psr\\Container\\' => array($vendorDir . '/psr/container/src'),
     'Monolog\\' => array($vendorDir . '/monolog/monolog/src/Monolog'),
     'Modules\\Core\\' => array($baseDir . '/'),
+    'Maatwebsite\\Sidebar\\' => array($vendorDir . '/maatwebsite/laravel-sidebar/src'),
     'League\\Flysystem\\' => array($vendorDir . '/league/flysystem/src'),
     'Illuminate\\' => array($vendorDir . '/laravel/framework/src/Illuminate'),
     'FloatingPoint\\Stylist\\' => array($vendorDir . '/floatingpoint/stylist/src/Stylist'),

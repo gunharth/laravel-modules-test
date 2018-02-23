@@ -53,6 +53,7 @@ class ComposerStaticInit351bb84cc011dda55e44a9309c7e887c
         array (
             'Monolog\\' => 8,
             'Modules\\Core\\' => 13,
+            'Maatwebsite\\Sidebar\\' => 20,
         ),
         'L' => 
         array (
@@ -168,6 +169,10 @@ class ComposerStaticInit351bb84cc011dda55e44a9309c7e887c
         'Modules\\Core\\' => 
         array (
             0 => __DIR__ . '/../..' . '/',
+        ),
+        'Maatwebsite\\Sidebar\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/maatwebsite/laravel-sidebar/src',
         ),
         'League\\Flysystem\\' => 
         array (
