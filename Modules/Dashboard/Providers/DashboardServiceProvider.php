@@ -2,12 +2,24 @@
 
 namespace Modules\Dashboard\Providers;
 
+// use Illuminate\Support\ServiceProvider;
+// use Illuminate\Database\Eloquent\Factory;
+// use Modules\Core\Events\BuildingSidebar;
+// use Modules\Core\Traits\CanGetSidebarClassForModule;
+// use Modules\Core\Traits\CanPublishConfiguration;
+// use Modules\Dashboard\Events\Handlers\RegisterDashboardSidebar;
+// use Modules\Theme\Manager\StylistThemeManager;
+
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
 use Modules\Core\Events\BuildingSidebar;
+// use Modules\Core\Events\LoadingBackendTranslations;
 use Modules\Core\Traits\CanGetSidebarClassForModule;
 use Modules\Core\Traits\CanPublishConfiguration;
+// use Modules\Dashboard\Entities\Widget;
 use Modules\Dashboard\Events\Handlers\RegisterDashboardSidebar;
+// use Modules\Dashboard\Repositories\Cache\CacheWidgetDecorator;
+// use Modules\Dashboard\Repositories\Eloquent\EloquentWidgetRepository;
+// use Modules\Dashboard\Repositories\WidgetRepository;
 use Modules\Theme\Manager\StylistThemeManager;
 
 class DashboardServiceProvider extends ServiceProvider

@@ -74,6 +74,7 @@
         locales: {!! json_encode(LaravelLocalization::getSupportedLocales()) !!},
         currentLocale: '{{ locale() }}',
         adminPrefix: '{{ config('sorter.core.core.admin-prefix') }}',
+        hideDefaultLocaleInURL: '{{ config('laravellocalization.hideDefaultLocaleInURL') }}',
     };
 </script>
 

@@ -161,6 +161,7 @@ return [
         App\Providers\RouteServiceProvider::class,
 
         Modules\Core\Providers\SorterServiceProvider::class,
+        Modules\Core\Providers\EventServiceProvider::class,
 
     ],
 

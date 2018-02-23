@@ -9,6 +9,7 @@
         "Modules\\Core\\Providers\\CoreServiceProvider",
         "Modules\\Core\\Providers\\SidebarServiceProvider",
         "Modules\\Core\\Providers\\AssetServiceProvider",
+        "Modules\\Core\\Providers\\EventServiceProvider",
         "FloatingPoint\\Stylist\\StylistServiceProvider",
         "Maatwebsite\\Sidebar\\SidebarServiceProvider"
     ],

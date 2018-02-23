@@ -7,16 +7,16 @@ use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
-use Modules\Core\Blade\AsgardEditorDirective;
-use Modules\Core\Console\DeleteModuleCommand;
-use Modules\Core\Console\DownloadModuleCommand;
-use Modules\Core\Console\InstallCommand;
-use Modules\Core\Console\PublishModuleAssetsCommand;
-use Modules\Core\Console\PublishThemeAssetsCommand;
+// use Modules\Core\Blade\AsgardEditorDirective;
+// use Modules\Core\Console\DeleteModuleCommand;
+// use Modules\Core\Console\DownloadModuleCommand;
+// use Modules\Core\Console\InstallCommand;
+// use Modules\Core\Console\PublishModuleAssetsCommand;
+// use Modules\Core\Console\PublishThemeAssetsCommand;
 use Modules\Core\Events\BuildingSidebar;
-use Modules\Core\Events\EditorIsRendering;
+// use Modules\Core\Events\EditorIsRendering;
 use Modules\Core\Events\Handlers\RegisterCoreSidebar;
-use Modules\Core\Events\LoadingBackendTranslations;
+// use Modules\Core\Events\LoadingBackendTranslations;
 use Modules\Core\Foundation\Theme\ThemeManager;
 use Modules\Core\Traits\CanGetSidebarClassForModule;
 use Modules\Core\Traits\CanPublishConfiguration;
@@ -49,7 +49,7 @@ class CoreServiceProvider extends ServiceProvider
 
     public function boot()
     {
-        // $this->publishConfig('core', 'available-locales');
+        $this->publishConfig('core', 'available-locales');
         $this->publishConfig('core', 'config');
         $this->publishConfig('core', 'core');
         // $this->publishConfig('core', 'settings');
@@ -72,13 +72,14 @@ class CoreServiceProvider extends ServiceProvider
         $this->app->singleton('sorter.isInstalled', function () {
             return true === env('INSTALLED', false);
         });
+
         $this->app->singleton('sorter.onBackend', function () {
             return $this->onBackend();
         });
 
         // $this->registerCommands();
         $this->registerServices();
-        $this->setLocalesConfigurations();
+        // $this->setLocalesConfigurations();
 
         // $this->app->bind('core.sorter.editor', function () {
         //     return new AsgardEditorDirective();
@@ -88,10 +89,11 @@ class CoreServiceProvider extends ServiceProvider
             BuildingSidebar::class,
             $this->getSidebarClassForModule('core', RegisterCoreSidebar::class)
         );
-        $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
-            $event->load('core', array_dot(trans('core::core')));
-            $event->load('sidebar', array_dot(trans('core::sidebar')));
-        });
+
+        // $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
+        //     $event->load('core', array_dot(trans('core::core')));
+        //     $event->load('sidebar', array_dot(trans('core::sidebar')));
+        // });
     }
 
     /**
@@ -147,14 +149,14 @@ class CoreServiceProvider extends ServiceProvider
             return [
                 'core',
                 'dashboard',
-                // 'media',
-                // 'menu',
-                // 'page',
-                'setting',
-                // 'tag',
+                'media',
+                'menu',
+                'page',
+                'theme',
+                'tag',
                 'translation',
-                // 'user',
-                // 'workshop',
+                'user',
+                'workshop',
             ];
         });
     }
