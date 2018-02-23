@@ -3,11 +3,20 @@
 namespace Modules\Dashboard\Http\Controllers\Admin;
 
 use Illuminate\Http\Request;
-use Illuminate\Http\Response;
+use Illuminate\Support\Facades\Response;
+use Modules\Core\Http\Controllers\Admin\AdminBaseController;
 use Illuminate\Routing\Controller;
 
-class DashboardController extends Controller
+class DashboardController extends AdminBaseController
 {
+    public function __construct()
+    {
+        parent::__construct();
+        // $this->bootWidgets($modules);
+        // $this->widget = $widget;
+        // $this->auth = $auth;
+    }
+
     /**
      * Display a listing of the resource.
      * @return Response

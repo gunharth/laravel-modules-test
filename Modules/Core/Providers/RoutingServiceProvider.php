@@ -72,7 +72,7 @@ abstract class RoutingServiceProvider extends ServiceProvider
 
         if ($frontend && file_exists($frontend)) {
             $router->group([
-                'middleware' => config('asgard.core.core.middleware.frontend', []),
+                // 'middleware' => config('asgard.core.core.middleware.frontend', []),
             ], function (Router $router) use ($frontend) {
                 require $frontend;
             });
@@ -89,7 +89,7 @@ abstract class RoutingServiceProvider extends ServiceProvider
         if ($backend && file_exists($backend)) {
             $router->group([
                 'namespace' => 'Admin',
-                'prefix' => config('core.admin-prefix'),
+                'prefix' => config('sorter.core.core.admin-prefix'),
                 // 'middleware' => config('asgard.core.core.middleware.backend', []),
             ], function (Router $router) use ($backend) {
                 require $backend;

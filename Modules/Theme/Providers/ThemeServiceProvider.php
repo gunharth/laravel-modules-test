@@ -136,7 +136,7 @@ class ThemeServiceProvider extends ServiceProvider
         // }
 
         if ($this->inAdministration()) {
-            $themeName = $this->app['config']->get('core.admin-theme');
+            $themeName = $this->app['config']->get('sorter.core.core.admin-theme');
 
             return $this->app['stylist']->activate($themeName, true);
         }

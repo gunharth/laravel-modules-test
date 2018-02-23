@@ -7,6 +7,7 @@
     "order": 0,
     "providers": [
         "Modules\\Core\\Providers\\CoreServiceProvider",
+        "Modules\\Core\\Providers\\AssetServiceProvider",
         "FloatingPoint\\Stylist\\StylistServiceProvider"
     ],
     "aliases": {},

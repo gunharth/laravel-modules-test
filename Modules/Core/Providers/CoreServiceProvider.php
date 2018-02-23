@@ -2,12 +2,16 @@
 
 namespace Modules\Core\Providers;
 
+use Illuminate\Http\Request;
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
 use Modules\Core\Foundation\Theme\ThemeManager;
+use Modules\Core\Traits\CanPublishConfiguration;
 
 class CoreServiceProvider extends ServiceProvider
 {
+    use CanPublishConfiguration;
+
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -22,8 +26,12 @@ class CoreServiceProvider extends ServiceProvider
      */
     public function boot()
     {
+        $this->publishConfig('core', 'config');
+        $this->publishConfig('core', 'core');
+
+
         $this->registerTranslations();
-        $this->registerConfig();
+        // $this->registerConfig();
         $this->registerViews();
         $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
@@ -41,7 +49,7 @@ class CoreServiceProvider extends ServiceProvider
         });
 
         $this->app->singleton(ThemeManager::class, function ($app) {
-            $path = $app['config']->get('core.themes_path');
+            $path = $app['config']->get('sorter.core.core.themes_path');
 
             return new ThemeManager($app, $path);
         });
@@ -52,16 +60,16 @@ class CoreServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    protected function registerConfig()
-    {
-        $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('core.php'),
-        ], 'config');
-        $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php',
-            'core'
-        );
-    }
+    // protected function registerConfig()
+    // {
+    //     $this->publishes([
+    //         __DIR__.'/../Config/config.php' => config_path('core.php'),
+    //     ], 'config');
+    //     $this->mergeConfigFrom(
+    //         __DIR__.'/../Config/config.php',
+    //         'core'
+    //     );
+    // }
 
     /**
      * Register views.
@@ -127,7 +135,7 @@ class CoreServiceProvider extends ServiceProvider
     private function onBackend()
     {
         $url = app(Request::class)->url();
-        if (str_contains($url, config('core.admin-prefix'))) {
+        if (str_contains($url, config('sorter.core.core.admin-prefix'))) {
             return true;
         }
 

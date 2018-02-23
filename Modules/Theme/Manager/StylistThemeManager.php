@@ -129,6 +129,6 @@ class StylistThemeManager implements ThemeManager
             return setting('core::template') === $theme->getName();
         }
 
-        return config('core.admin-theme') === $theme->getName();
+        return config('sorter.core.core.admin-theme') === $theme->getName();
     }
 }

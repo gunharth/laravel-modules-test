@@ -4,10 +4,12 @@ namespace Modules\Dashboard\Providers;
 
 use Illuminate\Support\ServiceProvider;
 use Illuminate\Database\Eloquent\Factory;
+use Modules\Core\Traits\CanPublishConfiguration;
 use Modules\Theme\Manager\StylistThemeManager;
 
 class DashboardServiceProvider extends ServiceProvider
 {
+    use CanPublishConfiguration;
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -28,41 +30,19 @@ class DashboardServiceProvider extends ServiceProvider
 
         $this->app['view']->prependNamespace(
             'dashboard',
-            $theme->find(config('core.admin-theme'))->getPath() . '/views/modules/dashboard'
+            $theme->find(config('sorter.core.core.admin-theme'))->getPath() . '/views/modules/dashboard'
         );
 
+        $this->publishConfig('dashboard', 'config');
+
+
         $this->registerTranslations();
-        $this->registerConfig();
+        //$this->registerConfig();
         $this->registerViews();
         // $this->registerFactories();
         $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
     }
 
-    /**
-     * Register the service provider.
-     *
-     * @return void
-     */
-    public function register()
-    {
-        //
-    }
-
-    /**
-     * Register config.
-     *
-     * @return void
-     */
-    protected function registerConfig()
-    {
-        $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('dashboard.php'),
-        ], 'config');
-        $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php',
-            'dashboard'
-        );
-    }
 
     /**
      * Register views.
