@@ -2,11 +2,27 @@
 
 namespace Modules\Translation\Providers;
 
+use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\ServiceProvider;
-use Illuminate\Database\Eloquent\Factory;
+use Modules\Core\Composers\CurrentUserViewComposer;
+use Modules\Core\Events\BuildingSidebar;
+use Modules\Core\Events\LoadingBackendTranslations;
+use Modules\Core\Traits\CanGetSidebarClassForModule;
+use Modules\Core\Traits\CanPublishConfiguration;
+use Modules\Translation\Console\BuildTranslationsCacheCommand;
+use Modules\Translation\Entities\Translation;
+use Modules\Translation\Events\Handlers\RegisterTranslationSidebar;
+use Modules\Translation\Repositories\Cache\CacheTranslationDecorator;
+use Modules\Translation\Repositories\Eloquent\EloquentTranslationRepository;
+use Modules\Translation\Repositories\File\FileTranslationRepository as FileDiskTranslationRepository;
+use Modules\Translation\Repositories\FileTranslationRepository;
+use Modules\Translation\Repositories\TranslationRepository;
+use Modules\Translation\Services\TranslationLoader;
 
 class TranslationServiceProvider extends ServiceProvider
 {
+    use CanPublishConfiguration, CanGetSidebarClassForModule;
     /**
      * Indicates if loading of the provider is deferred.
      *
@@ -15,89 +31,63 @@ class TranslationServiceProvider extends ServiceProvider
     protected $defer = false;
 
     /**
-     * Boot the application events.
-     *
-     * @return void
-     */
-    public function boot()
-    {
-        $this->registerTranslations();
-        $this->registerConfig();
-        $this->registerViews();
-        $this->registerFactories();
-        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
-    }
-
-    /**
      * Register the service provider.
      *
      * @return void
      */
     public function register()
     {
-        //
+        $this->registerBindings();
+        //$this->registerConsoleCommands();
+
+        //view()->composer('translation::admin.translations.index', CurrentUserViewComposer::class);
+
+        // $this->app['events']->listen(
+        //     BuildingSidebar::class,
+        //     $this->getSidebarClassForModule('translation', RegisterTranslationSidebar::class)
+        // );
+
+        // $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
+        //     $event->load('translations', array_dot(trans('translation::translations')));
+        // });
     }
 
-    /**
-     * Register config.
-     *
-     * @return void
-     */
-    protected function registerConfig()
+    public function boot()
     {
-        $this->publishes([
-            __DIR__.'/../Config/config.php' => config_path('translation.php'),
-        ], 'config');
-        $this->mergeConfigFrom(
-            __DIR__.'/../Config/config.php', 'translation'
-        );
-    }
+        $this->publishConfig('translation', 'config');
+        //$this->publishConfig('translation', 'permissions');
 
-    /**
-     * Register views.
-     *
-     * @return void
-     */
-    public function registerViews()
-    {
-        $viewPath = resource_path('views/modules/translation');
+        $this->registerValidators();
+        $this->loadMigrationsFrom(__DIR__ . '/../Database/Migrations');
 
-        $sourcePath = __DIR__.'/../Resources/views';
+        if ($this->app->runningInConsole() === true) {
+            return;
+        }
 
-        $this->publishes([
-            $sourcePath => $viewPath
-        ],'views');
-
-        $this->loadViewsFrom(array_merge(array_map(function ($path) {
-            return $path . '/modules/translation';
-        }, \Config::get('view.paths')), [$sourcePath]), 'translation');
-    }
-
-    /**
-     * Register translations.
-     *
-     * @return void
-     */
-    public function registerTranslations()
-    {
-        $langPath = resource_path('lang/modules/translation');
-
-        if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, 'translation');
-        } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'translation');
+        if ($this->shouldRegisterCustomTranslator()) {
+            $this->registerCustomTranslator();
         }
     }
 
     /**
-     * Register an additional directory of factories.
-     * @source https://github.com/sebastiaanluca/laravel-resource-flow/blob/develop/src/Modules/ModuleServiceProvider.php#L66
+     * Should we register the Custom Translator?
+     * @return bool
      */
-    public function registerFactories()
+    protected function shouldRegisterCustomTranslator()
     {
-        if (! app()->environment('production')) {
-            app(Factory::class)->load(__DIR__ . '/../Database/factories');
+        if (false === config('app.translations-gui', true)) {
+            return false;
         }
+
+        if (false === env('INSTALLED', false)) {
+            return false;
+        }
+
+        if (false === Schema::hasTable((new Translation)->getTable())) {
+            return false;
+        }
+
+        return true;
     }
 
     /**
@@ -107,6 +97,55 @@ class TranslationServiceProvider extends ServiceProvider
      */
     public function provides()
     {
-        return [];
+        return array();
+    }
+
+    private function registerBindings()
+    {
+        $this->app->bind(TranslationRepository::class, function () {
+            $repository = new EloquentTranslationRepository(new Translation());
+
+            return new CacheTranslationDecorator($repository);
+        });
+
+        $this->app->bind(FileTranslationRepository::class, function ($app) {
+            return new FileDiskTranslationRepository($app['files'], $app['translation.loader']);
+        });
+    }
+
+    private function registerConsoleCommands()
+    {
+        $this->commands([
+            BuildTranslationsCacheCommand::class,
+        ]);
+    }
+
+    protected function registerCustomTranslator()
+    {
+        $this->app->singleton('translation.loader', function ($app) {
+            return new TranslationLoader($app['files'], $app['path.lang']);
+        });
+        $this->app->singleton('translator', function ($app) {
+            $loader = $app['translation.loader'];
+
+            $locale = $app['config']['app.locale'];
+
+            $trans = new \Illuminate\Translation\Translator($loader, $locale);
+
+            $trans->setFallback($app['config']['app.fallback_locale']);
+
+            return $trans;
+        });
+    }
+
+    private function registerValidators()
+    {
+        Validator::extend('extensions', function ($attribute, $value, $parameters) {
+            return in_array($value->getClientOriginalExtension(), $parameters);
+        });
+
+        Validator::replacer('extensions', function ($message, $attribute, $rule, $parameters) {
+            return str_replace([':attribute', ':values'], [$attribute, implode(',', $parameters)], $message);
+        });
     }
 }

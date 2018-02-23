@@ -70,7 +70,9 @@
 @endforeach
 <script>
     window.AsgardCMS = {
-        currentLocale: 'en',
+        translations: {!! $staticTranslations !!},
+        locales: {!! json_encode(LaravelLocalization::getSupportedLocales()) !!},
+        currentLocale: '{{ locale() }}',
         adminPrefix: '{{ config('sorter.core.core.admin-prefix') }}',
     };
 </script>

@@ -9,7 +9,7 @@ class TranslationsViewComposer
 {
     public function compose(View $view)
     {
-        if (app('asgard.onBackend') === false) {
+        if (app('sorter.onBackend') === false) {
             return;
         }
         event($staticTranslations = new LoadingBackendTranslations());

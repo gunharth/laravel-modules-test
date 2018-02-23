@@ -21,12 +21,18 @@
                 <a href="#" class="dropdown-toggle" data-toggle="dropdown">
                     <i class="fa fa-flag"></i>
                     <span>
-
+                        {{ LaravelLocalization::getCurrentLocaleName()  }}
                         <i class="caret"></i>
                     </span>
                 </a>
                 <ul class="dropdown-menu language-menu">
-
+                    @foreach(LaravelLocalization::getSupportedLocales() as $localeCode => $properties)
+                        <li class="{{ App::getLocale() == $localeCode ? 'active' : '' }}">
+                            <a rel="alternate" lang="{{$localeCode}}" href="{{LaravelLocalization::getLocalizedURL($localeCode) }}">
+                                {!! $properties['native'] !!}
+                            </a>
+                        </li>
+                    @endforeach
                 </ul>
             </li>
             <!-- User Account: style can be found in dropdown.less -->

@@ -42,9 +42,9 @@ class DashboardServiceProvider extends ServiceProvider
             $this->getSidebarClassForModule('dashboard', RegisterDashboardSidebar::class)
         );
 
-        // $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
-        //     $event->load('dashboard', array_dot(trans('dashboard::dashboard')));
-        // });
+        $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
+            $event->load('dashboard', array_dot(trans('dashboard::dashboard')));
+        });
     }
 
     /**
@@ -66,7 +66,7 @@ class DashboardServiceProvider extends ServiceProvider
         $this->publishConfig('dashboard', 'config');
 
 
-        $this->registerTranslations();
+        //$this->registerTranslations();
         //$this->registerConfig();
         $this->registerViews();
         // $this->registerFactories();
