@@ -54,9 +54,9 @@ class DashboardServiceProvider extends ServiceProvider
             $this->getSidebarClassForModule('dashboard', RegisterDashboardSidebar::class)
         );
 
-        $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
-            $event->load('dashboard', array_dot(trans('dashboard::dashboard')));
-        });
+        // $this->app['events']->listen(LoadingBackendTranslations::class, function (LoadingBackendTranslations $event) {
+        //     $event->load('dashboard', array_dot(trans('dashboard::dashboard')));
+        // });
     }
 
     /**
@@ -111,35 +111,35 @@ class DashboardServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerTranslations()
-    {
-        $langPath = resource_path('lang/modules/dashboard');
+    // public function registerTranslations()
+    // {
+    //     $langPath = resource_path('lang/modules/dashboard');
 
-        if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, 'dashboard');
-        } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'dashboard');
-        }
-    }
+    //     if (is_dir($langPath)) {
+    //         $this->loadTranslationsFrom($langPath, 'dashboard');
+    //     } else {
+    //         $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'dashboard');
+    //     }
+    // }
 
     /**
      * Register an additional directory of factories.
      * @source https://github.com/sebastiaanluca/laravel-resource-flow/blob/develop/src/Modules/ModuleServiceProvider.php#L66
      */
-    public function registerFactories()
-    {
-        if (! app()->environment('production')) {
-            app(Factory::class)->load(__DIR__ . '/../Database/factories');
-        }
-    }
+    // public function registerFactories()
+    // {
+    //     if (! app()->environment('production')) {
+    //         app(Factory::class)->load(__DIR__ . '/../Database/factories');
+    //     }
+    // }
 
     /**
      * Get the services provided by the provider.
      *
      * @return array
      */
-    public function provides()
-    {
-        return [];
-    }
+    // public function provides()
+    // {
+    //     return [];
+    // }
 }

@@ -95,37 +95,37 @@ class ThemeServiceProvider extends ServiceProvider
      *
      * @return void
      */
-    public function registerTranslations()
-    {
-        $langPath = resource_path('lang/modules/theme');
+    // public function registerTranslations()
+    // {
+    //     $langPath = resource_path('lang/modules/theme');
 
-        if (is_dir($langPath)) {
-            $this->loadTranslationsFrom($langPath, 'theme');
-        } else {
-            $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'theme');
-        }
-    }
+    //     if (is_dir($langPath)) {
+    //         $this->loadTranslationsFrom($langPath, 'theme');
+    //     } else {
+    //         $this->loadTranslationsFrom(__DIR__ .'/../Resources/lang', 'theme');
+    //     }
+    // }
 
     /**
      * Register an additional directory of factories.
      * @source https://github.com/sebastiaanluca/laravel-resource-flow/blob/develop/src/Modules/ModuleServiceProvider.php#L66
      */
-    public function registerFactories()
-    {
-        if (! app()->environment('production')) {
-            app(Factory::class)->load(__DIR__ . '/../Database/factories');
-        }
-    }
+    // public function registerFactories()
+    // {
+    //     if (! app()->environment('production')) {
+    //         app(Factory::class)->load(__DIR__ . '/../Database/factories');
+    //     }
+    // }
 
     /**
      * Get the services provided by the provider.
      *
      * @return array
      */
-    public function provides()
-    {
-        return [];
-    }
+    // public function provides()
+    // {
+    //     return [];
+    // }
 
     /**
      * Bind the theme manager
