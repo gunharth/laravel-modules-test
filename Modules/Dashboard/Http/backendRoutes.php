@@ -7,7 +7,7 @@ $router->get('/', [
     'as' => 'dashboard.index',
     'uses' => 'DashboardController@index',
     'middleware' => 'web',
-    // 'middleware' => 'can:dashboard.index',
+    'middleware' => 'can:dashboard.index',
 ]);
 
 $router->group(['prefix' => '/dashboard'], function (Router $router) {

@@ -55,7 +55,7 @@ class CoreServiceProvider extends ServiceProvider
         // $this->publishConfig('core', 'settings');
         // $this->publishConfig('core', 'permissions');
 
-        // $this->registerMiddleware($this->app['router']);
+        $this->registerMiddleware($this->app['router']);
         $this->registerModuleResourceNamespaces();
 
         // $this->bladeDirectives();
@@ -79,7 +79,7 @@ class CoreServiceProvider extends ServiceProvider
 
         // $this->registerCommands();
         $this->registerServices();
-        // $this->setLocalesConfigurations();
+        $this->setLocalesConfigurations();
 
         // $this->app->bind('core.sorter.editor', function () {
         //     return new AsgardEditorDirective();

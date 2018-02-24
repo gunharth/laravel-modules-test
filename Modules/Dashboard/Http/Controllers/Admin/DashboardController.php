@@ -5,16 +5,30 @@ namespace Modules\Dashboard\Http\Controllers\Admin;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Response;
 use Modules\Core\Http\Controllers\Admin\AdminBaseController;
-use Illuminate\Routing\Controller;
+use Modules\User\Contracts\Authentication;
+use Nwidart\Modules\Contracts\RepositoryInterface;
+
+// use Illuminate\Routing\Controller;
 
 class DashboardController extends AdminBaseController
 {
-    public function __construct()
+
+    /**
+     * @var Authentication
+     */
+    private $auth;
+
+    /**
+     * @param RepositoryInterface $modules
+     * @param WidgetRepository $widget
+     * @param Authentication $auth
+     */
+    public function __construct(RepositoryInterface $modules, Authentication $auth)
     {
         parent::__construct();
         // $this->bootWidgets($modules);
         // $this->widget = $widget;
-        // $this->auth = $auth;
+        $this->auth = $auth;
     }
 
     /**

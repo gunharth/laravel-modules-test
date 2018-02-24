@@ -4,8 +4,7 @@ namespace Modules\Core\Providers;
 
 use Illuminate\Foundation\Support\Providers\RouteServiceProvider as ServiceProvider;
 use Illuminate\Routing\Router;
-
-// use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
+use Mcamara\LaravelLocalization\Facades\LaravelLocalization;
 
 abstract class RoutingServiceProvider extends ServiceProvider
 {
@@ -49,17 +48,17 @@ abstract class RoutingServiceProvider extends ServiceProvider
      */
     public function map(Router $router)
     {
-        // $router->group(['namespace' => $this->namespace], function (Router $router) {
-        //     $this->loadApiRoutes($router);
-        // });
+        $router->group(['namespace' => $this->namespace], function (Router $router) {
+            $this->loadApiRoutes($router);
+        });
 
         $router->group([
             'namespace' => $this->namespace,
-            // 'prefix' => LaravelLocalization::setLocale(),
-            // 'middleware' => ['localizationRedirect', 'web'],
+            'prefix' => LaravelLocalization::setLocale(),
+            'middleware' => ['localizationRedirect', 'web'],
         ], function (Router $router) {
             $this->loadBackendRoutes($router);
-            // $this->loadFrontendRoutes($router);
+            $this->loadFrontendRoutes($router);
         });
     }
 
@@ -72,7 +71,7 @@ abstract class RoutingServiceProvider extends ServiceProvider
 
         if ($frontend && file_exists($frontend)) {
             $router->group([
-                // 'middleware' => config('asgard.core.core.middleware.frontend', []),
+                'middleware' => config('sorter.core.core.middleware.frontend', []),
             ], function (Router $router) use ($frontend) {
                 require $frontend;
             });
@@ -90,7 +89,7 @@ abstract class RoutingServiceProvider extends ServiceProvider
             $router->group([
                 'namespace' => 'Admin',
                 'prefix' => config('sorter.core.core.admin-prefix'),
-                // 'middleware' => config('asgard.core.core.middleware.backend', []),
+                'middleware' => config('sorter.core.core.middleware.backend', []),
             ], function (Router $router) use ($backend) {
                 require $backend;
             });
@@ -100,18 +99,18 @@ abstract class RoutingServiceProvider extends ServiceProvider
     /**
      * @param Router $router
      */
-    // private function loadApiRoutes(Router $router)
-    // {
-    //     $api = $this->getApiRoute();
+    private function loadApiRoutes(Router $router)
+    {
+        $api = $this->getApiRoute();
 
-    //     if ($api && file_exists($api)) {
-    //         $router->group([
-    //             'namespace' => 'Api',
-    //             'prefix' => LaravelLocalization::setLocale() . '/api',
-    //             'middleware' => config('asgard.core.core.middleware.api', []),
-    //         ], function (Router $router) use ($api) {
-    //             require $api;
-    //         });
-    //     }
-    // }
+        if ($api && file_exists($api)) {
+            $router->group([
+                'namespace' => 'Api',
+                'prefix' => LaravelLocalization::setLocale() . '/api',
+                'middleware' => config('sorter.core.core.middleware.api', []),
+            ], function (Router $router) use ($api) {
+                require $api;
+            });
+        }
+    }
 }

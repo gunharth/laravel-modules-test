@@ -1,7 +1,11 @@
 <?php
 
 return [
-    'name' => 'Core',
+   /*
+   |--------------------------------------------------------------------------
+   | The prefix that'll be used for the administration
+   |--------------------------------------------------------------------------
+ */
     'admin-prefix' => 'cp',
 
     /*
@@ -28,7 +32,47 @@ return [
      */
     'skin' => 'skin-blue',
 
+   /*
+   |--------------------------------------------------------------------------
+   | WYSIWYG Backend Editor
+   |--------------------------------------------------------------------------
+   | Define which editor you would like to use for the backend wysiwygs.
+   | These classes are event handlers, listening to EditorIsRendering
+   | you can define your own handlers and use them here
+   | Options:
+   | - \Modules\Core\Events\Handlers\LoadCkEditor::class
+   | - \Modules\Core\Events\Handlers\LoadSimpleMde::class
+     */
+    'wysiwyg-handler' => \Modules\Core\Events\Handlers\LoadCkEditor::class,
     /*
+    |--------------------------------------------------------------------------
+    | Custom CKeditor configuration file
+    |--------------------------------------------------------------------------
+    | Define a custom CKeditor configuration file to instead of the one
+    | provided by default. This is useful if you wish to customise
+    | the toolbar and other possible options.
+     */
+    'ckeditor-config-file-path' => '',
+
+    /*
+    |--------------------------------------------------------------------------
+    | Middleware
+    |--------------------------------------------------------------------------
+    | You can customise the Middleware that should be loaded.
+    | The localizationRedirect middleware is automatically loaded for both
+    | Backend and Frontend routes.
+     */
+    'middleware' => [
+        'backend' => [
+            'auth.admin',
+        ],
+        'frontend' => [],
+        'api' => [
+            'api',
+        ],
+    ],
+
+   /*
    |--------------------------------------------------------------------------
    | Define which assets will be available through the asset manager
    |--------------------------------------------------------------------------
@@ -115,4 +159,16 @@ return [
             'main.js',
         ],
     ],
+
+    /*
+    |--------------------------------------------------------------------------
+    | Enable module view overrides at theme locations
+    |--------------------------------------------------------------------------
+    | By default you can only have module views in resources/views/asgard/[module]
+    | setting this setting to true will add ability for you to store those views
+    | in any of front or backend themes in my-theme/views/modules/[module]/...
+    |
+    | useViewNamespaces.backend-theme needs to be enabled at module level
+     */
+    'enable-theme-overrides' => false,
 ];
