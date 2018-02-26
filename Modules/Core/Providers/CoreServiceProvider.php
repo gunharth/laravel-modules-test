@@ -52,7 +52,7 @@ class CoreServiceProvider extends ServiceProvider
         $this->publishConfig('core', 'available-locales');
         $this->publishConfig('core', 'config');
         $this->publishConfig('core', 'core');
-        // $this->publishConfig('core', 'settings');
+        $this->publishConfig('core', 'settings');
         // $this->publishConfig('core', 'permissions');
 
         $this->registerMiddleware($this->app['router']);
@@ -193,6 +193,7 @@ class CoreServiceProvider extends ServiceProvider
     {
         $hints = [];
         $moduleName = $module->getLowerName();
+
 
         if (is_core_module($moduleName)) {
             $configFile = 'config';
